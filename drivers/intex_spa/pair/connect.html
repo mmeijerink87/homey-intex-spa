@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 24px; background: #fff; color: #333; }
+    h2 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+    p { font-size: 14px; color: #666; margin-bottom: 20px; }
+    .hint { background: #f0f8ff; border-left: 3px solid #0099cc; padding: 10px 14px; font-size: 13px; color: #444; margin-bottom: 20px; border-radius: 0 6px 6px 0; }
+    label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #444; }
+    input { width: 100%; padding: 10px 12px; border: 1.5px solid #ddd; border-radius: 8px; font-size: 15px; outline: none; }
+    input:focus { border-color: #0099cc; }
+    .field { margin-bottom: 16px; }
+    button { width: 100%; padding: 13px; background: #0099cc; color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 8px; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    .error { color: #e53e3e; font-size: 13px; margin-top: 10px; display: none; }
+  </style>
+</head>
+<body>
+  <h2>Verbind Intex PureSpa</h2>
+  <p>Voer het IP-adres in van je spa.</p>
+  <div class="hint">💡 Zoek het IP-adres in je router onder "Verbonden apparaten". Zoek naar "ESP" of "Intex".</div>
+  <div class="field">
+    <label>IP-adres van de spa</label>
+    <input id="ip" type="text" placeholder="bijv. 192.168.2.44" />
+  </div>
+  <div class="field">
+    <label>Poort (standaard 8990)</label>
+    <input id="port" type="number" value="8990" />
+  </div>
+  <div class="error" id="error"></div>
+  <button id="btn">Toevoegen</button>
+
+  <script>
+    function onHomeyReady(Homey) {
+      Homey.ready();
+
+      document.getElementById('btn').addEventListener('click', async () => {
+        const ip = document.getElementById('ip').value.trim();
+        const port = parseInt(document.getElementById('port').value) || 8990;
+        const errorEl = document.getElementById('error');
+        const btn = document.getElementById('btn');
+
+        errorEl.style.display = 'none';
+
+        if (!ip || ip.split('.').length !== 4) {
+          errorEl.textContent = 'Vul een geldig IP-adres in.';
+          errorEl.style.display = 'block';
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Bezig...';
+
+        try {
+          await Homey.emit('save_ip', { ip, port });
+          await Homey.createDevice({
+            name: 'Intex PureSpa',
+            data: { id: 'intex-spa-' + ip.replace(/\./g, '-') },
+            settings: { ip, port, poll_interval: 30 }
+          });
+          Homey.done();
+        } catch (err) {
+          errorEl.textContent = err.message || 'Fout bij toevoegen.';
+          errorEl.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Toevoegen';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

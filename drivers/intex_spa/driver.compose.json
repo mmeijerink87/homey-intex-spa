@@ -1,0 +1,51 @@
+{
+  "name": { "en": "Intex PureSpa", "nl": "Intex PureSpa" },
+  "class": "thermostat",
+  "capabilities": [
+    "measure_temperature",
+    "target_temperature",
+    "intex_spa_filter",
+    "intex_spa_heater",
+    "intex_spa_bubbles",
+    "intex_spa_power"
+  ],
+  "capabilitiesOptions": {
+    "target_temperature": { "min": 20, "max": 40, "step": 1 },
+    "measure_temperature": { "decimals": 0 }
+  },
+  "images": {
+    "small": "/drivers/intex_spa/assets/images/small.png",
+    "large": "/drivers/intex_spa/assets/images/large.png"
+  },
+  "connectivity": ["lan"],
+  "pair": [
+    {
+      "id": "connect"
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "settings": [
+    {
+      "id": "ip",
+      "type": "text",
+      "label": { "en": "IP Address", "nl": "IP-adres" },
+      "hint": { "en": "Find this in your router's device list (look for ESP or Intex)", "nl": "Te vinden in de apparatenlijst van je router (zoek naar ESP of Intex)" },
+      "value": "192.168.1.100"
+    },
+    {
+      "id": "port",
+      "type": "number",
+      "label": { "en": "Port", "nl": "Poort" },
+      "value": 8990
+    },
+    {
+      "id": "poll_interval",
+      "type": "number",
+      "label": { "en": "Poll interval (seconds)", "nl": "Polling interval (seconden)" },
+      "value": 30
+    }
+  ]
+}
