@@ -12,6 +12,7 @@
     "nl": "Bedien je Intex PureSpa WiFi jacuzzi vanuit Homey"
   },
   "category": ["appliances"],
+  "brandColor": "#0099cc",
   "permissions": [],
   "images": {
     "small": "/assets/images/small.png",
