@@ -3,6 +3,13 @@
 const Homey = require('homey');
 const { IntexSpaClient } = require('../../lib/IntexSpaClient');
 
+// Estimated power consumption per component (Watts)
+const POWER = {
+  heater: 2200,
+  filter: 55,
+  bubbles: 750,
+};
+
 class IntexSpaDevice extends Homey.Device {
 
   async onInit() {
@@ -21,16 +28,13 @@ class IntexSpaDevice extends Homey.Device {
     this._heaterOffTrigger   = this.homey.flow.getDeviceTriggerCard('heater_turned_off');
     this._tempReachedTrigger = this.homey.flow.getDeviceTriggerCard('temperature_reached');
 
-    // Mark unavailable until first successful poll
-    await this.setUnavailable(this.homey.__('errors.not_connected') || 'Connecting to spa...');
-
+    await this.setUnavailable('Verbinding maken met spa...');
     this._startPolling();
 
-    // First poll after short delay
     this.homey.setTimeout(async () => {
       await this._pollStatus().catch((err) => {
         this.log('Initial poll failed:', err.message);
-        this.setUnavailable('Cannot connect. Check IP address in device settings.');
+        this.setUnavailable('Kan geen verbinding maken. Controleer het IP-adres in de apparaatinstellingen.');
       });
     }, 3000);
   }
@@ -48,7 +52,7 @@ class IntexSpaDevice extends Homey.Device {
     this._pollInterval = this.homey.setInterval(async () => {
       await this._pollStatus().catch((err) => {
         this.log('Poll error:', err.message);
-        this.setUnavailable('Cannot connect. Check IP address in device settings.');
+        this.setUnavailable('Kan geen verbinding maken. Controleer het IP-adres in de apparaatinstellingen.');
       });
     }, ms);
   }
@@ -58,6 +62,17 @@ class IntexSpaDevice extends Homey.Device {
       this.homey.clearInterval(this._pollInterval);
       this._pollInterval = null;
     }
+  }
+
+  /**
+   * Calculate estimated power based on active components
+   */
+  _calculatePower(status) {
+    let watts = 0;
+    if (status.heater)  watts += POWER.heater;
+    if (status.filter)  watts += POWER.filter;
+    if (status.bubbles) watts += POWER.bubbles;
+    return watts;
   }
 
   async _pollStatus() {
@@ -75,6 +90,10 @@ class IntexSpaDevice extends Homey.Device {
 
     if (status.currentTemp !== null) await this.setCapabilityValue('measure_temperature', status.currentTemp);
     if (status.targetTemp  !== null) await this.setCapabilityValue('target_temperature',  status.targetTemp);
+
+    // Update estimated power consumption
+    const estimatedWatts = this._calculatePower(status);
+    await this.setCapabilityValue('measure_power', estimatedWatts);
 
     if (prevFilter === false && status.filter === true)  await this._filterOnTrigger.trigger(this).catch(this.error);
     if (prevFilter === true  && status.filter === false) await this._filterOffTrigger.trigger(this).catch(this.error);
@@ -133,9 +152,8 @@ class IntexSpaDevice extends Homey.Device {
     this.log('Settings updated:', JSON.stringify(newSettings));
     this._createClient();
     this._startPolling();
-    // Try to connect immediately with new settings
     await this._pollStatus().catch((err) => {
-      this.setUnavailable('Cannot connect. Check IP address in device settings.');
+      this.setUnavailable('Kan geen verbinding maken. Controleer het IP-adres in de apparaatinstellingen.');
     });
   }
 

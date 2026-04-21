@@ -8,10 +8,12 @@
     "nl": "Intex PureSpa"
   },
   "description": {
-    "en": "Control your Intex PureSpa WiFi jacuzzi from Homey",
-    "nl": "Bedien je Intex PureSpa WiFi jacuzzi vanuit Homey"
+    "en": "Relax, your spa is connected",
+    "nl": "Ontspan, je spa is verbonden"
   },
-  "category": ["appliances"],
+  "category": [
+    "appliances"
+  ],
   "brandColor": "#0099cc",
   "permissions": [],
   "images": {
@@ -25,28 +27,40 @@
   "capabilities": {
     "intex_spa_filter": {
       "type": "boolean",
-      "title": { "en": "Filter pump", "nl": "Filterpomp" },
+      "title": {
+        "en": "Filter pump",
+        "nl": "Filterpomp"
+      },
       "getable": true,
       "setable": true,
       "uiComponent": "toggle"
     },
     "intex_spa_heater": {
       "type": "boolean",
-      "title": { "en": "Heater", "nl": "Verwarming" },
+      "title": {
+        "en": "Heater",
+        "nl": "Verwarming"
+      },
       "getable": true,
       "setable": true,
       "uiComponent": "toggle"
     },
     "intex_spa_bubbles": {
       "type": "boolean",
-      "title": { "en": "Bubbles", "nl": "Bubbels" },
+      "title": {
+        "en": "Bubbles",
+        "nl": "Bubbels"
+      },
       "getable": true,
       "setable": true,
       "uiComponent": "toggle"
     },
     "intex_spa_power": {
       "type": "boolean",
-      "title": { "en": "Power", "nl": "Stroom" },
+      "title": {
+        "en": "Power",
+        "nl": "Stroom"
+      },
       "getable": true,
       "setable": true,
       "uiComponent": "toggle"
@@ -55,9 +69,13 @@
   "drivers": [
     {
       "id": "intex_spa",
-      "name": { "en": "Intex PureSpa", "nl": "Intex PureSpa" },
+      "name": {
+        "en": "Intex PureSpa",
+        "nl": "Intex PureSpa"
+      },
       "class": "thermostat",
       "capabilities": [
+        "measure_power",
         "measure_temperature",
         "target_temperature",
         "intex_spa_filter",
@@ -66,8 +84,14 @@
         "intex_spa_power"
       ],
       "capabilitiesOptions": {
-        "target_temperature": { "min": 20, "max": 40, "step": 1 },
-        "measure_temperature": { "decimals": 0 }
+        "target_temperature": {
+          "min": 20,
+          "max": 40,
+          "step": 1
+        },
+        "measure_temperature": {
+          "decimals": 0
+        }
       },
       "images": {
         "small": "/drivers/intex_spa/assets/images/small.png",
@@ -78,7 +102,10 @@
           "id": "pair",
           "template": "generic_credentials",
           "options": {
-            "title": { "en": "Connect Intex PureSpa", "nl": "Verbind Intex PureSpa" }
+            "title": {
+              "en": "Connect Intex PureSpa",
+              "nl": "Verbind Intex PureSpa"
+            }
           }
         }
       ],
@@ -86,19 +113,28 @@
         {
           "id": "ip",
           "type": "text",
-          "label": { "en": "IP Address", "nl": "IP-adres" },
+          "label": {
+            "en": "IP Address",
+            "nl": "IP-adres"
+          },
           "value": "192.168.1.100"
         },
         {
           "id": "port",
           "type": "number",
-          "label": { "en": "Port", "nl": "Poort" },
+          "label": {
+            "en": "Port",
+            "nl": "Poort"
+          },
           "value": 8990
         },
         {
           "id": "poll_interval",
           "type": "number",
-          "label": { "en": "Poll interval (seconds)", "nl": "Polling interval (seconden)" },
+          "label": {
+            "en": "Poll interval (seconds)",
+            "nl": "Polling interval (seconden)"
+          },
           "value": 30
         }
       ]
@@ -108,65 +144,178 @@
     "triggers": [
       {
         "id": "filter_turned_on",
-        "title": { "en": "Filter pump turned on", "nl": "Filterpomp ingeschakeld" },
-        "args": [{ "name": "device", "type": "device", "filter": "driver_id=intex_spa" }]
+        "title": {
+          "en": "Filter pump turned on",
+          "nl": "Filterpomp ingeschakeld"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=intex_spa"
+          }
+        ]
       },
       {
         "id": "filter_turned_off",
-        "title": { "en": "Filter pump turned off", "nl": "Filterpomp uitgeschakeld" },
-        "args": [{ "name": "device", "type": "device", "filter": "driver_id=intex_spa" }]
+        "title": {
+          "en": "Filter pump turned off",
+          "nl": "Filterpomp uitgeschakeld"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=intex_spa"
+          }
+        ]
       },
       {
         "id": "heater_turned_on",
-        "title": { "en": "Heater turned on", "nl": "Verwarming ingeschakeld" },
-        "args": [{ "name": "device", "type": "device", "filter": "driver_id=intex_spa" }]
+        "title": {
+          "en": "Heater turned on",
+          "nl": "Verwarming ingeschakeld"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=intex_spa"
+          }
+        ]
       },
       {
         "id": "heater_turned_off",
-        "title": { "en": "Heater turned off", "nl": "Verwarming uitgeschakeld" },
-        "args": [{ "name": "device", "type": "device", "filter": "driver_id=intex_spa" }]
+        "title": {
+          "en": "Heater turned off",
+          "nl": "Verwarming uitgeschakeld"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=intex_spa"
+          }
+        ]
       },
       {
         "id": "temperature_reached",
-        "title": { "en": "Target temperature reached", "nl": "Doeltemperatuur bereikt" },
-        "args": [{ "name": "device", "type": "device", "filter": "driver_id=intex_spa" }]
+        "title": {
+          "en": "Target temperature reached",
+          "nl": "Doeltemperatuur bereikt"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=intex_spa"
+          }
+        ]
       }
     ],
     "actions": [
       {
         "id": "set_filter",
-        "title": { "en": "Turn filter pump on/off", "nl": "Filterpomp aan/uitzetten" },
-        "titleFormatted": { "en": "Turn filter pump [[enabled]]", "nl": "Filterpomp [[enabled]]" },
+        "title": {
+          "en": "Turn filter pump on/off",
+          "nl": "Filterpomp aan/uitzetten"
+        },
+        "titleFormatted": {
+          "en": "Turn filter pump [[enabled]]",
+          "nl": "Filterpomp [[enabled]]"
+        },
         "args": [
-          { "name": "device", "type": "device", "filter": "driver_id=intex_spa" },
-          { "name": "enabled", "type": "checkbox", "title": { "en": "On", "nl": "Aan" } }
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=intex_spa"
+          },
+          {
+            "name": "enabled",
+            "type": "checkbox",
+            "title": {
+              "en": "On",
+              "nl": "Aan"
+            }
+          }
         ]
       },
       {
         "id": "set_heater",
-        "title": { "en": "Turn heater on/off", "nl": "Verwarming aan/uitzetten" },
-        "titleFormatted": { "en": "Turn heater [[enabled]]", "nl": "Verwarming [[enabled]]" },
+        "title": {
+          "en": "Turn heater on/off",
+          "nl": "Verwarming aan/uitzetten"
+        },
+        "titleFormatted": {
+          "en": "Turn heater [[enabled]]",
+          "nl": "Verwarming [[enabled]]"
+        },
         "args": [
-          { "name": "device", "type": "device", "filter": "driver_id=intex_spa" },
-          { "name": "enabled", "type": "checkbox", "title": { "en": "On", "nl": "Aan" } }
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=intex_spa"
+          },
+          {
+            "name": "enabled",
+            "type": "checkbox",
+            "title": {
+              "en": "On",
+              "nl": "Aan"
+            }
+          }
         ]
       },
       {
         "id": "set_bubbles",
-        "title": { "en": "Turn bubbles on/off", "nl": "Bubbels aan/uitzetten" },
-        "titleFormatted": { "en": "Turn bubbles [[enabled]]", "nl": "Bubbels [[enabled]]" },
+        "title": {
+          "en": "Turn bubbles on/off",
+          "nl": "Bubbels aan/uitzetten"
+        },
+        "titleFormatted": {
+          "en": "Turn bubbles [[enabled]]",
+          "nl": "Bubbels [[enabled]]"
+        },
         "args": [
-          { "name": "device", "type": "device", "filter": "driver_id=intex_spa" },
-          { "name": "enabled", "type": "checkbox", "title": { "en": "On", "nl": "Aan" } }
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=intex_spa"
+          },
+          {
+            "name": "enabled",
+            "type": "checkbox",
+            "title": {
+              "en": "On",
+              "nl": "Aan"
+            }
+          }
         ]
       },
       {
         "id": "set_temperature",
-        "title": { "en": "Set target temperature", "nl": "Doeltemperatuur instellen" },
-        "titleFormatted": { "en": "Set target temperature to [[temperature]]°C", "nl": "Doeltemperatuur instellen op [[temperature]]°C" },
+        "title": {
+          "en": "Set target temperature",
+          "nl": "Doeltemperatuur instellen"
+        },
+        "titleFormatted": {
+          "en": "Set target temperature to [[temperature]]\u00b0C",
+          "nl": "Doeltemperatuur instellen op [[temperature]]\u00b0C"
+        },
         "args": [
-          { "name": "device", "type": "device", "filter": "driver_id=intex_spa" },
-          { "name": "temperature", "type": "range", "min": 20, "max": 40, "step": 1, "label": "°C" }
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=intex_spa"
+          },
+          {
+            "name": "temperature",
+            "type": "range",
+            "min": 20,
+            "max": 40,
+            "step": 1,
+            "label": "\u00b0C"
+          }
         ]
       }
     ]

@@ -1,14 +1,19 @@
-Bedien je Intex PureSpa WiFi jacuzzi direct vanuit Homey Pro.
+Bedien je Intex PureSpa volledig vanuit Homey Pro, zonder cloud.
 
 Functies:
-- Watertemperatuur uitlezen
-- Doeltemperatuur instellen (20-40°C)
+- Watertemperatuur uitlezen en instellen (20-40°C)
 - Verwarming, filterpomp en bubbels bedienen
-- Flow-kaarten voor automaties
+- Stroom aan/uit schakelen
+- Flow-kaarten voor krachtige automaties
 
-Vereisten:
-- Intex PureSpa met WiFi (Intex Link app)
-- Homey Pro
-- Spa en Homey op hetzelfde lokale netwerk
+Compatibiliteit:
+- Intex PureSpa modellen met WiFi en de Intex Link app (zoals SC-WF20)
+- Homey Pro en spa op hetzelfde lokale netwerk vereist
 
-Na het toevoegen van het apparaat, stel het IP-adres van je spa in via de apparaatinstellingen.
+Installatie:
+Zoek het IP-adres van je spa in je router en vul het in tijdens het koppelen. Voor een stabiele verbinding geef je de spa een vast IP in de DHCP-instellingen van je router.
+
+Voorbeelden van automaties:
+- Verwarm de spa elke vrijdag om 17:00 voor het weekend
+- Ontvang een melding wanneer de doeltemperatuur is bereikt
+- Schakel 's nachts automatisch verwarming en bubbels uit
