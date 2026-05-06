@@ -1,6 +1,6 @@
 {
   "id": "com.intex.spa",
-  "version": "1.0.3",
+  "version": "1.0.2",
   "compatibility": ">=12.0.0",
   "sdk": 3,
   "name": {
@@ -299,8 +299,8 @@
           "nl": "Doeltemperatuur instellen"
         },
         "titleFormatted": {
-          "en": "Set target temperature to [[temperature]]\u00b0C",
-          "nl": "Doeltemperatuur instellen op [[temperature]]\u00b0C"
+          "en": "Set target temperature to [[temperature]]°C",
+          "nl": "Doeltemperatuur instellen op [[temperature]]°C"
         },
         "args": [
           {
@@ -314,51 +314,10 @@
             "min": 20,
             "max": 40,
             "step": 1,
-            "label": "\u00b0C"
+            "label": "°C"
           }
         ]
       }
     ]
-  },
-  "source": "https://github.com/mmeijerink87/homey-intex-spa",
-  "bugs": {
-    "url": "https://github.com/mmeijerink87/homey-intex-spa/issues"
-  },
-  "homepage": "https://github.com/mmeijerink87/homey-intex-spa",
-  "support": "https://github.com/mmeijerink87/homey-intex-spa/issues",
-  "tags": {
-    "en": [
-      "intex",
-      "spa",
-      "purespa",
-      "jacuzzi",
-      "hot tub",
-      "wifi",
-      "pool"
-    ],
-    "nl": [
-      "intex",
-      "spa",
-      "purespa",
-      "jacuzzi",
-      "bubbelbad",
-      "wifi",
-      "zwembad"
-    ]
-  },
-  "contributors": {
-    "developers": [
-      {
-        "name": "Mark Meijerink",
-        "email": "mark@meijerink.online"
-      }
-    ]
-  },
-  "contributing": {
-    "donate": {
-      "paypal": {
-        "username": ""
-      }
-    }
   }
 }

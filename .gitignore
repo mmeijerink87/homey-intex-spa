@@ -3,7 +3,3 @@ env.json
 .DS_Store
 *.log
 npm-debug.log*
-
-
-# Added by Homey CLI
-/.homeybuild/

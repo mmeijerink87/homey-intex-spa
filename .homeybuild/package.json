@@ -1,0 +1,11 @@
+{
+  "name": "com.intex.spa",
+  "version": "1.0.0",
+  "description": "Intex PureSpa WiFi integration for Homey",
+  "main": "app.js",
+  "dependencies": {},
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "license": "MIT"
+}
