@@ -1,13 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <ellipse cx="50" cy="60" rx="38" ry="32" fill="white" stroke="white" stroke-width="2"/>
-  <ellipse cx="50" cy="58" rx="32" ry="26" fill="none" stroke="white" stroke-width="2.5" opacity="0.7"/>
-  <ellipse cx="50" cy="56" rx="26" ry="20" fill="none" stroke="white" stroke-width="2.5" opacity="0.5"/>
-  <circle cx="35" cy="50" r="2.5" fill="white"/>
-  <circle cx="42" cy="46" r="2" fill="white"/>
-  <circle cx="50" cy="48" r="2.8" fill="white"/>
-  <circle cx="58" cy="46" r="2" fill="white"/>
-  <circle cx="65" cy="50" r="2.5" fill="white"/>
-  <path d="M30 30 Q32 24 30 18" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-  <path d="M50 25 Q52 19 50 13" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-  <path d="M70 30 Q72 24 70 18" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 960">
+  <ellipse cx="480" cy="540" rx="380" ry="280" fill="none" stroke="currentColor" stroke-width="40"/>
+  <ellipse cx="480" cy="540" rx="290" ry="200" fill="none" stroke="currentColor" stroke-width="30" opacity="0.7"/>
+  <circle cx="320" cy="500" r="35" fill="currentColor"/>
+  <circle cx="400" cy="450" r="28" fill="currentColor"/>
+  <circle cx="480" cy="470" r="40" fill="currentColor"/>
+  <circle cx="560" cy="450" r="28" fill="currentColor"/>
+  <circle cx="640" cy="500" r="35" fill="currentColor"/>
+  <path d="M280 280 Q300 220 280 160" stroke="currentColor" stroke-width="35" fill="none" stroke-linecap="round"/>
+  <path d="M480 240 Q500 180 480 120" stroke="currentColor" stroke-width="35" fill="none" stroke-linecap="round"/>
+  <path d="M680 280 Q700 220 680 160" stroke="currentColor" stroke-width="35" fill="none" stroke-linecap="round"/>
 </svg>
