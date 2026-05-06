@@ -1,6 +1,6 @@
 {
   "id": "com.intex.spa",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "compatibility": ">=12.0.0",
   "sdk": 3,
   "name": {
@@ -299,8 +299,8 @@
           "nl": "Doeltemperatuur instellen"
         },
         "titleFormatted": {
-          "en": "Set target temperature to [[temperature]]\u00b0C",
-          "nl": "Doeltemperatuur instellen op [[temperature]]\u00b0C"
+          "en": "Set target temperature to [[temperature]]°C",
+          "nl": "Doeltemperatuur instellen op [[temperature]]°C"
         },
         "args": [
           {
@@ -314,7 +314,7 @@
             "min": 20,
             "max": 40,
             "step": 1,
-            "label": "\u00b0C"
+            "label": "°C"
           }
         ]
       }
