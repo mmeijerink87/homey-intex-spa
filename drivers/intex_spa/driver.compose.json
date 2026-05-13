@@ -36,9 +36,6 @@
       "template": "list_devices",
       "navigation": {
         "next": "add_devices"
-      },
-      "options": {
-        "singular": true
       }
     },
     {
@@ -53,10 +50,6 @@
       "label": {
         "en": "IP Address",
         "nl": "IP-adres"
-      },
-      "hint": {
-        "en": "The IP address of your spa on the local network",
-        "nl": "Het IP-adres van je spa op het lokale netwerk"
       },
       "value": "192.168.1.100"
     },
