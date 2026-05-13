@@ -1,6 +1,6 @@
 {
   "id": "com.intex.spa",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "compatibility": ">=12.0.0",
   "sdk": 3,
   "name": {
@@ -99,14 +99,21 @@
       },
       "pair": [
         {
-          "id": "pair",
-          "template": "generic_credentials",
-          "options": {
-            "title": {
-              "en": "Connect Intex PureSpa",
-              "nl": "Verbind Intex PureSpa"
-            }
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
           }
+        },
+        {
+          "id": "manual_ip",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
         }
       ],
       "settings": [
@@ -299,8 +306,8 @@
           "nl": "Doeltemperatuur instellen"
         },
         "titleFormatted": {
-          "en": "Set target temperature to [[temperature]]\u00b0C",
-          "nl": "Doeltemperatuur instellen op [[temperature]]\u00b0C"
+          "en": "Set target temperature to [[temperature]]°C",
+          "nl": "Doeltemperatuur instellen op [[temperature]]°C"
         },
         "args": [
           {
@@ -314,7 +321,7 @@
             "min": 20,
             "max": 40,
             "step": 1,
-            "label": "\u00b0C"
+            "label": "°C"
           }
         ]
       }

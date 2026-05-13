@@ -39,8 +39,8 @@ class IntexSpaDevice extends Homey.Device {
     }, 3000);
   }
 
-  _createClient() {
-    const s = this.getSettings();
+  _createClient(settings) {
+    const s = settings || this.getSettings();
     this.log(`Creating client for ${s.ip}:${s.port || 8990}`);
     this._client = new IntexSpaClient({ ip: s.ip, port: s.port || 8990, timeout: 5000 });
   }
@@ -150,9 +150,11 @@ class IntexSpaDevice extends Homey.Device {
 
   async onSettings({ newSettings }) {
     this.log('Settings updated:', JSON.stringify(newSettings));
-    this._createClient();
+    this._createClient(newSettings);
     this._startPolling();
+    await this.setAvailable().catch(() => {});
     await this._pollStatus().catch((err) => {
+      this.log('Poll after settings update failed:', err.message);
       this.setUnavailable('Kan geen verbinding maken. Controleer het IP-adres in de apparaatinstellingen.');
     });
   }

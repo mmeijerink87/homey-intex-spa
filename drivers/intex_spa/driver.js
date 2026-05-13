@@ -11,38 +11,41 @@ class IntexSpaDriver extends Homey.Driver {
   }
 
   /**
-   * Called when the user starts pairing.
-   * Scans the local network for Intex spas.
+   * Custom pair handler.
+   *
+   * Flow:
+   *   list_devices  --> scan the network. If devices found, show them.
+   *                     If nothing found, programmatically navigate to manual_ip.
+   *   manual_ip     --> user enters IP, tests connection, and adds device.
+   *   add_devices   --> standard Homey "add chosen device" view.
    */
-  async onPairListDevices() {
-    this.log('Starting network scan for Intex spas...');
-    
-    try {
-      const subnets = this._getLocalSubnets();
-      this.log('Scanning subnets:', subnets);
+  onPair(session) {
+    session.setHandler('showView', async (viewId) => {
+      this.log(`Pair view: ${viewId}`);
+    });
 
-      const found = [];
-      for (const subnet of subnets) {
-        const devices = await this._scanSubnet(subnet);
-        found.push(...devices);
+    // Homey calls this automatically when the list_devices template loads.
+    // We perform the network scan here and return the result.
+    session.setHandler('list_devices', async () => {
+      this.log('list_devices handler: starting scan...');
+      let scanned = [];
+      try {
+        scanned = await this._scanNetwork();
+        this.log(`Scan complete. Found ${scanned.length} spa(s)`);
+      } catch (err) {
+        this.error('Scan error:', err);
       }
 
-      this.log(`Scan complete. Found ${found.length} spa(s)`);
-
-      if (found.length === 0) {
-        return [{
-          name: 'Intex PureSpa (handmatig instellen)',
-          data: { id: 'intex-spa-manual-' + Date.now() },
-          settings: {
-            ip: '192.168.1.100',
-            port: 8990,
-            poll_interval: 30,
-          },
-        }];
+      if (scanned.length === 0) {
+        // No spa auto-detected: jump to manual IP entry.
+        // We do NOT await this — we return an empty list immediately so the
+        // template doesn't hang, and showView happens in parallel.
+        session.showView('manual_ip').catch((e) => this.error('showView manual_ip failed:', e));
+        return [];
       }
 
-      return found.map((device) => ({
-        name: `Intex PureSpa`,
+      return scanned.map((device) => ({
+        name: `Intex PureSpa (${device.ip})`,
         data: { id: 'intex-spa-' + device.ip.replace(/\./g, '-') },
         settings: {
           ip: device.ip,
@@ -50,18 +53,59 @@ class IntexSpaDriver extends Homey.Driver {
           poll_interval: 30,
         },
       }));
-    } catch (err) {
-      this.error('Pair scan error:', err);
-      return [{
-        name: 'Intex PureSpa (handmatig instellen)',
-        data: { id: 'intex-spa-manual-' + Date.now() },
+    });
+
+    // Called by manual_ip.html when the user clicks "Test connection"
+    session.setHandler('test_connection', async (data) => {
+      const ip = (data && data.ip) ? String(data.ip).trim() : '';
+      if (!this._isValidIp(ip)) {
+        return { success: false, error: 'invalid_ip' };
+      }
+      this.log(`Testing connection to ${ip}:8990`);
+      const result = await this._probeSpa(ip);
+      return { success: !!result, ip };
+    });
+
+    // Called by manual_ip.html when the user clicks "Add device".
+    // We hand the assembled device back to the front-end, which then
+    // calls Homey.addDevice() and proceeds to the add_devices view.
+    session.setHandler('add_manual_device', async (data) => {
+      const ip = (data && data.ip) ? String(data.ip).trim() : '';
+      if (!this._isValidIp(ip)) {
+        throw new Error('invalid_ip');
+      }
+      return {
+        name: `Intex PureSpa (${ip})`,
+        data: { id: 'intex-spa-' + ip.replace(/\./g, '-') },
         settings: {
-          ip: '192.168.1.100',
+          ip,
           port: 8990,
           poll_interval: 30,
         },
-      }];
+      };
+    });
+  }
+
+  _isValidIp(ip) {
+    if (!ip || typeof ip !== 'string') return false;
+    const parts = ip.split('.');
+    if (parts.length !== 4) return false;
+    return parts.every((p) => {
+      const n = parseInt(p, 10);
+      return !isNaN(n) && n >= 0 && n <= 255 && String(n) === p;
+    });
+  }
+
+  async _scanNetwork() {
+    const subnets = this._getLocalSubnets();
+    this.log('Scanning subnets:', subnets);
+
+    const found = [];
+    for (const subnet of subnets) {
+      const devices = await this._scanSubnet(subnet);
+      found.push(...devices);
     }
+    return found;
   }
 
   _getLocalSubnets() {

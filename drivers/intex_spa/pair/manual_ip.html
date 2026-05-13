@@ -1,0 +1,124 @@
+<header class="homey-header">
+  <h1 class="homey-title" data-i18n="pair.manual_ip.title">Voer IP-adres in</h1>
+  <p class="homey-subtitle" data-i18n="pair.manual_ip.subtitle">
+    Geen spa automatisch gevonden. Voer het IP-adres van je Intex PureSpa handmatig in.
+    Je vindt het IP-adres in je router of in de Intex-app.
+  </p>
+</header>
+
+<fieldset class="homey-form-fieldset">
+  <div class="homey-form-group">
+    <label class="homey-form-label" for="ip" data-i18n="pair.manual_ip.ip_label">IP-adres</label>
+    <input
+      class="homey-form-input"
+      id="ip"
+      type="text"
+      placeholder="192.168.1.100"
+      autocomplete="off"
+      inputmode="decimal"
+    />
+    <p class="homey-form-helper" id="status"></p>
+  </div>
+</fieldset>
+
+<div class="homey-button-row">
+  <button id="test-btn" class="homey-button-secondary-full">
+    <span data-i18n="pair.manual_ip.test">Test verbinding</span>
+  </button>
+  <button id="add-btn" class="homey-button-primary-full" disabled>
+    <span data-i18n="pair.manual_ip.add">Toevoegen</span>
+  </button>
+</div>
+
+<script type="application/javascript">
+  const ipInput = document.getElementById('ip');
+  const testBtn = document.getElementById('test-btn');
+  const addBtn  = document.getElementById('add-btn');
+  const status  = document.getElementById('status');
+
+  let testPassed   = false;
+  let warningShown = false;
+
+  // Translations
+  const t = {
+    testing:        Homey.__('pair.manual_ip.testing')        || 'Testen...',
+    success:        Homey.__('pair.manual_ip.success')        || '✓ Verbinding gelukt!',
+    fail:           Homey.__('pair.manual_ip.fail')           || '✗ Geen antwoord van spa. Controleer of de spa aan staat en op hetzelfde netwerk zit.',
+    fail_continue:  Homey.__('pair.manual_ip.fail_continue')  || 'Klik nogmaals op Toevoegen om alsnog door te gaan.',
+    invalid_ip:     Homey.__('pair.manual_ip.invalid_ip')     || 'Ongeldig IP-adres',
+    enter_ip:       Homey.__('pair.manual_ip.enter_ip')       || 'Voer eerst een IP-adres in',
+  };
+
+  ipInput.addEventListener('input', () => {
+    const looksValid = /^(\d{1,3}\.){3}\d{1,3}$/.test(ipInput.value.trim());
+    addBtn.disabled = !looksValid;
+    testPassed = false;
+    warningShown = false;
+    status.textContent = '';
+    status.style.color = '';
+  });
+
+  testBtn.addEventListener('click', async () => {
+    const ip = ipInput.value.trim();
+    if (!ip) {
+      status.textContent = t.enter_ip;
+      status.style.color = 'var(--homey-color-red, #d32f2f)';
+      return;
+    }
+    status.textContent = t.testing;
+    status.style.color = '';
+    testBtn.disabled = true;
+
+    try {
+      const result = await Homey.emit('test_connection', { ip });
+      if (result && result.success) {
+        status.textContent = t.success;
+        status.style.color = 'var(--homey-color-green, #2e7d32)';
+        testPassed = true;
+        warningShown = false;
+      } else if (result && result.error === 'invalid_ip') {
+        status.textContent = t.invalid_ip;
+        status.style.color = 'var(--homey-color-red, #d32f2f)';
+        testPassed = false;
+      } else {
+        status.textContent = t.fail;
+        status.style.color = 'var(--homey-color-red, #d32f2f)';
+        testPassed = false;
+      }
+    } catch (err) {
+      status.textContent = t.fail;
+      status.style.color = 'var(--homey-color-red, #d32f2f)';
+      testPassed = false;
+    } finally {
+      testBtn.disabled = false;
+    }
+  });
+
+  addBtn.addEventListener('click', async () => {
+    const ip = ipInput.value.trim();
+    if (!ip) {
+      status.textContent = t.enter_ip;
+      status.style.color = 'var(--homey-color-red, #d32f2f)';
+      return;
+    }
+
+    // If test wasn't run or failed, show warning. Second click confirms.
+    if (!testPassed && !warningShown) {
+      status.textContent = t.fail + ' ' + t.fail_continue;
+      status.style.color = 'var(--homey-color-orange, #f57c00)';
+      warningShown = true;
+      return;
+    }
+
+    addBtn.disabled = true;
+    try {
+      const device = await Homey.emit('add_manual_device', { ip });
+      if (!device) throw new Error('No device returned');
+      Homey.createDevice(device);
+    } catch (err) {
+      status.textContent = (err && err.message) || 'Error';
+      status.style.color = 'var(--homey-color-red, #d32f2f)';
+      addBtn.disabled = false;
+    }
+  });
+</script>

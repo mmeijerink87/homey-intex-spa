@@ -1,0 +1,17 @@
+{
+  "pair": {
+    "manual_ip": {
+      "title": "Voer IP-adres in",
+      "subtitle": "Geen spa automatisch gevonden. Voer het IP-adres van je Intex PureSpa handmatig in. Je vindt het IP-adres in je router of in de Intex-app.",
+      "ip_label": "IP-adres",
+      "test": "Test verbinding",
+      "add": "Toevoegen",
+      "testing": "Testen...",
+      "success": "✓ Verbinding gelukt!",
+      "fail": "✗ Geen antwoord van spa. Controleer of de spa aan staat en op hetzelfde netwerk zit.",
+      "fail_continue": "Klik nogmaals op Toevoegen om alsnog door te gaan.",
+      "invalid_ip": "Ongeldig IP-adres",
+      "enter_ip": "Voer eerst een IP-adres in"
+    }
+  }
+}

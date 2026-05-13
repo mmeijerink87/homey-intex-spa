@@ -1,0 +1,17 @@
+{
+  "pair": {
+    "manual_ip": {
+      "title": "Enter IP address",
+      "subtitle": "No spa found automatically. Please enter the IP address of your Intex PureSpa manually. You can find the IP address in your router or in the Intex app.",
+      "ip_label": "IP address",
+      "test": "Test connection",
+      "add": "Add",
+      "testing": "Testing...",
+      "success": "✓ Connection successful!",
+      "fail": "✗ No response from spa. Make sure the spa is powered on and on the same network.",
+      "fail_continue": "Click Add again to continue anyway.",
+      "invalid_ip": "Invalid IP address",
+      "enter_ip": "Please enter an IP address first"
+    }
+  }
+}
