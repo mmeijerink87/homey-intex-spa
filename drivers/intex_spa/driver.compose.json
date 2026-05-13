@@ -32,7 +32,14 @@
   ],
   "pair": [
     {
-      "id": "connect"
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      },
+      "options": {
+        "singular": true
+      }
     },
     {
       "id": "add_devices",
@@ -48,8 +55,8 @@
         "nl": "IP-adres"
       },
       "hint": {
-        "en": "Find this in your router's device list (look for ESP or Intex)",
-        "nl": "Te vinden in de apparatenlijst van je router (zoek naar ESP of Intex)"
+        "en": "The IP address of your spa on the local network",
+        "nl": "Het IP-adres van je spa op het lokale netwerk"
       },
       "value": "192.168.1.100"
     },
